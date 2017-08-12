@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
- Vue.use(Vuex )
+ Vue.use(Vuex)
 
 const state = {
     photos: [],
@@ -21,7 +21,6 @@ const restclient = axios.create({
     baseURL: 'http://localhost:8000/'
     // timeout: 1000,
 })
-
 restclient.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
 const mutations = {
@@ -97,13 +96,13 @@ const actions = {
         )
     },
     addVideo: (store, video) => {
-        Vue.http.options.root = 'http://localhost:8000'
+
         //  Appel API REST
-        Vue.http.post('video/' + video.id, {video}).then(
+        restclient.post('video/' + video.id, {video}).then(
             //  success callback
             response => {
                 //  commit via le mutateur
-                store.commit('ADD_VIDEO', response.body)
+                store.commit('ADD_VIDEO', response.data)
             },
             //  error callback
             response => {
@@ -112,13 +111,13 @@ const actions = {
         )
     },
     addSerie: (store, serie) => {
-        Vue.http.options.root = 'http://localhost:8000'
+
         //  Appel API REST
-        Vue.http.post('serie/' + serie.id, {serie}).then(
+        restclient.post('serie/' + serie.id, {serie}).then(
             //  success callback
             response => {
                 //  commit via le mutateur
-                store.commit('ADD_SERIE', response.body)
+                store.commit('ADD_SERIE', response.data)
             },
             //  error callback
             response => {

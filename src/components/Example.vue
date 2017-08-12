@@ -1,6 +1,8 @@
 <template>
     <div class="example container">
-        <h1>Yolo</h1>
+        <h1>Yolo
+            <btn class="btn btn-success" @click="login()">login</btn>
+        </h1>
         <h2>Example with store (vuex)</h2>
         <div class="row">
             <div class="col-md-4">
@@ -74,52 +76,71 @@
 </template>
 
 <script>
-  import Vuex from 'vuex'
+    import Vuex from 'vuex'
+    import axios from 'axios'
 
-  export default {
-    name: 'example',
-    components: {},
-    data () {
-      return {
-        msg: 'Welcome to Your Vue.js App'
-      }
-    },
-    props: {},
-    computed: {
-      // plus besoin de data() : on accède aux données via les GETTERS du store
-      ...Vuex.mapGetters({
-        // mapping with the names in the store data (right side)
-        photos: 'photos',
-        videos: 'videos',
-        series: 'series'
-      })
-    },
-    methods: {
-      ...Vuex.mapActions({
-        // mapping with the names in the store actions (right side)
-        loadDataStore: 'loadData',
-        addPhotoStore: 'addPhoto',
-        addVideoStore: 'addVideo',
-        addSerieStore: 'addSerie'
-      }),
-      addPhoto (photo) {
-        this.addPhotoStore(photo)
-      },
-      addVideo (video) {
-        this.addVideoStore(video)
-      },
-      addSerie (serie) {
-        this.addSerieStore(serie)
-      },
-      loadData () {
-        this.loadDataStore()
-      }
-    },
-    created: function () {
-      console.log('mounted zob')
-      this.loadData()
+    const restclient = axios.create({
+        baseURL: 'http://localhost:8000/'
+        // timeout: 1000,
+    })
+
+    export default {
+        name: 'example',
+        components: {},
+        data () {
+            return {
+                msg: 'Welcome to Your Vue.js App'
+            }
+        },
+        props: {},
+        computed: {
+            // plus besoin de data() : on accède aux données via les GETTERS du store
+            ...Vuex.mapGetters({
+                // mapping with the names in the store data (right side)
+                photos: 'photos',
+                videos: 'videos',
+                series: 'series'
+            })
+        },
+        methods: {
+            ...Vuex.mapActions({
+                // mapping with the names in the store actions (right side)
+                loadDataStore: 'loadData',
+                addPhotoStore: 'addPhoto',
+                addVideoStore: 'addVideo',
+                addSerieStore: 'addSerie'
+            }),
+            addPhoto (photo) {
+                this.addPhotoStore(photo)
+            },
+            addVideo (video) {
+                this.addVideoStore(video)
+            },
+            addSerie (serie) {
+                this.addSerieStore(serie)
+            },
+            loadData () {
+                this.loadDataStore()
+            },
+            login () {
+                restclient.post('/auth', {username: 'Sophie', password: 'culculcul'}).then(
+                    //  success callback
+                    response => {
+                        var token = response.data.token
+                        localStorage.setItem('token', 'Bearer ' + token)
+                    },
+                    //  error callback
+                    response => {
+                        console.error('error while adding photo')
+                    }
+                )
+            }
+        },
+        created: function () {
+            console.log('mounted zob')
+            this.loadData()
+        }
     }
-  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
