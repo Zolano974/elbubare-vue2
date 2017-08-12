@@ -1,7 +1,8 @@
 <template>
     <div class="example container">
         <h1>Yolo
-            <btn class="btn btn-success" @click="login()">login</btn>
+            <button class="btn btn-success" @click="login()">login</button>
+            <button class="btn btn-danger" @click="clearData()"><span class="glyphicon glyphicon-trash"></span></button>
         </h1>
         <h2>Example with store (vuex)</h2>
         <div class="row">
@@ -77,12 +78,7 @@
 
 <script>
     import Vuex from 'vuex'
-    import axios from 'axios'
-
-    const restclient = axios.create({
-        baseURL: 'http://localhost:8000/'
-        // timeout: 1000,
-    })
+    import restclient from '../restclient'
 
     export default {
         name: 'example',
@@ -106,6 +102,7 @@
             ...Vuex.mapActions({
                 // mapping with the names in the store actions (right side)
                 loadDataStore: 'loadData',
+                clearDataStore: 'clearData',
                 addPhotoStore: 'addPhoto',
                 addVideoStore: 'addVideo',
                 addSerieStore: 'addSerie'
@@ -122,18 +119,18 @@
             loadData () {
                 this.loadDataStore()
             },
-            login () {
-                restclient.post('/auth', {username: 'Sophie', password: 'culculcul'}).then(
-                    //  success callback
-                    response => {
-                        var token = response.data.token
-                        localStorage.setItem('token', 'Bearer ' + token)
-                    },
-                    //  error callback
-                    response => {
+            clearData(){
+                this.clearDataStore()
+            },
+            async login () {
+
+                try{
+                    var response = await restclient.post('/auth', {username: 'Sophie', password: 'culculcul'})
+                    var token = response.data.token
+                    localStorage.setItem('token', 'Bearer ' + token)
+                }catch (err){
                         console.error('error while adding photo')
-                    }
-                )
+                }
             }
         },
         created: function () {

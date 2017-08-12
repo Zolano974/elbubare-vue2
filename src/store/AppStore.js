@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+import restclient from '../restclient'
+
+import _ from 'underscore'
 
  Vue.use(Vuex)
 
@@ -17,113 +19,120 @@ const getters = {
     series: state => state.series
 }
 
-const restclient = axios.create({
-    baseURL: 'http://localhost:8000/'
-    // timeout: 1000,
-})
-restclient.defaults.headers.common['Authorization'] = localStorage.getItem('token')
+
+Array.prototype.getById = (id) => {
+    return this.filter((elt) => {
+        return elt.id === id
+    })
+}
+
+Array.prototype.clearById = (id) => {
+    return this.filter((elt) => {
+        return elt.id !== id
+    })
+}
+
+
 
 const mutations = {
+    CLEAR_STORE: (state) => {
+        state.photos = []
+        state.videos = []
+        state.series = []
+    },
+    //PHOTOS
     SYNC_PHOTOS: (state, photos) => {
         state.photos = photos
     },
     ADD_PHOTO: (state, photo) => {
         state.photos.push(photo)
     },
+    REMOVE_PHOTO: (state, photo) => {
+        state.photos.clearById(photo.id)
+    },
+    //VIDEOS
     SYNC_VIDEOS: (state, videos) => {
         state.videos = videos
     },
     ADD_VIDEO: (state, video) => {
         state.videos.push(video)
     },
+    REMOVE_VIDEO: (state, video) => {
+        state.videos.clearById(video.id)
+    },
+    //SERIES
     SYNC_SERIES: (state, series) => {
         state.series = series
     },
     ADD_SERIE: (state, serie) => {
         state.series.push(serie)
+    },
+    REMOVE_SERIE: (state, serie) => {
+        state.series.clearById(serie.id)
     }
 }
 const actions = {
     // charge l'état du store via l'API
-    loadData: (store) => {
-        console.log('load data')
+    loadData: async (store) => {
+        console.log('load data async await')
 
         // sync photos
-        restclient.get('photos')
-            .then(
-                response => {
-                    console.log(response.data)
-                    store.commit('SYNC_PHOTOS', response.data.photos)
-                },
-                response => {
-                    console.log('error while syncing photos')
-                }
-            )
-
+        try{
+            var photosresponse = await restclient.get('photos')
+            store.commit('SYNC_PHOTOS', photosresponse.data.photos)
+        }catch(err){
+            console.log('trouble during photo syncing : ', err)
+        }
         // sync videos
-        restclient.get('videos').then(
-          response => {
-            store.commit('SYNC_VIDEOS', response.data.videos)
-          },
-          response => {
-            console.log('error while syncing videos')
-          },
-        )
+        try{
+            var videosreponse= await restclient.get('videos')
+            store.commit('SYNC_VIDEOS', videosreponse.data.videos)
+        }catch(err){
+            console.log('trouble during photo syncing : ', err)
+        }
         // sync series
-        restclient.get('series').then(
-          response => {
-            store.commit('SYNC_SERIES', response.data.series)
-          },
-          response => {
-            console.log('error while syncing series')
-          },
-        )
+        try{
+            var seriesresponse = await restclient.get('series')
+            store.commit('SYNC_SERIES', seriesresponse.data.series)
+        }catch(err){
+            console.log('trouble during photo syncing : ', err)
+        }
     },
-    addPhoto: (store, photo) => {
+    clearData: (store) => {
+        store.commit('CLEAR_STORE')
+    },
+    addPhoto: async (store, photo) => {
         console.log('add photo action')
 
-        //  Appel API REST
-        restclient.post('photo/' + photo.id, {photo}).then(
-            //  success callback
-            response => {
-                //  commit via le mutateur
-                store.commit('ADD_PHOTO', response.body)
-            },
-            //  error callback
-            response => {
-                console.error('error while adding photo')
-            }
-        )
+        try{
+            var response= await restclient.post('photo/' + photo.id, {photo})
+            store.commit('ADD_PHOTO', response.body)
+        }catch(err){
+            console.error('error while adding photo')
+        }
     },
-    addVideo: (store, video) => {
+    addVideo: async (store, video) => {
+        console.log('add video action')
 
-        //  Appel API REST
-        restclient.post('video/' + video.id, {video}).then(
-            //  success callback
-            response => {
-                //  commit via le mutateur
-                store.commit('ADD_VIDEO', response.data)
-            },
-            //  error callback
-            response => {
-                console.error('error while adding video')
-            }
-        )
+        try{
+            //  Appel API REST
+            var response= await restclient.post('video/' + video.id, {video})
+            store.commit('ADD_VIDEO', response.body)
+        }catch(err){
+            console.error('error while adding video')
+        }
+
     },
-    addSerie: (store, serie) => {
+    addSerie: async (store, serie) => {
 
-        //  Appel API REST
-        restclient.post('serie/' + serie.id, {serie}).then(
-            //  success callback
-            response => {
-                //  commit via le mutateur
-                store.commit('ADD_SERIE', response.data)
-            },
-            //  error callback
-            response => {
-                console.error('error while adding serie')
-            }
-        )
+        try{
+            //  Appel API REST
+            var response = await restclient.post('serie/' + serie.id, {serie})
+            store.commit('ADD_SERIE', response.data)
+        }catch(err){
+            console.error('error while adding serie')
+        }
+
     }
 }
 
