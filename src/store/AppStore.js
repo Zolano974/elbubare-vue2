@@ -23,7 +23,6 @@ const restclient = axios.create({
 })
 
 restclient.defaults.headers.common['Authorization'] = localStorage.getItem('token')
-restclient.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
 const mutations = {
     SYNC_PHOTOS: (state, photos) => {
@@ -54,32 +53,32 @@ const actions = {
         restclient.get('photos')
             .then(
                 response => {
-                    console.log(response)
-                    // store.commit('SYNC_PHOTOS', response.body)
+                    console.log(response.data)
+                    store.commit('SYNC_PHOTOS', response.data.photos)
                 },
                 response => {
                     console.log('error while syncing photos')
                 }
             )
-        //
-        // // sync videos
-        // Vue.http.get('videos').then(
-        //   response => {
-        //     store.commit('SYNC_VIDEOS', response.body.data)
-        //   },
-        //   response => {
-        //     console.log('error while syncing videos')
-        //   },
-        // )
-        // // sync series
-        // Vue.http.get('series').then(
-        //   response => {
-        //     store.commit('SYNC_SERIES', response.body.data)
-        //   },
-        //   response => {
-        //     console.log('error while syncing series')
-        //   },
-        // )
+
+        // sync videos
+        restclient.get('videos').then(
+          response => {
+            store.commit('SYNC_VIDEOS', response.data.videos)
+          },
+          response => {
+            console.log('error while syncing videos')
+          },
+        )
+        // sync series
+        restclient.get('series').then(
+          response => {
+            store.commit('SYNC_SERIES', response.data.series)
+          },
+          response => {
+            console.log('error while syncing series')
+          },
+        )
     },
     addPhoto: (store, photo) => {
         console.log('add photo action')
