@@ -6,23 +6,37 @@
         </h1>
         <h2>Example with store (vuex)</h2>
         <div class="row">
+            <authent></authent>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <h2>Series</h2>
                 <div class="table table-stripped">
                     <!--On itère sur le GETTER du store Vuex -->
                     <table>
+                        <!--<tr v-for="serie in series">-->
+                            <!--<td>-->
+                                <!--{{ serie.id }}-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--{{ serie.name }}-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--{{ serie.description }}-->
+                            <!--</td>-->
+                            <!--<td>-->
+
+                                <!--<img :title="serie.title" :src="picture_base_path + serie.picture"/>-->
+                            <!--</td>-->
+                        <!--</tr>-->
                         <tr v-for="serie in series">
                             <td>
-                                {{ serie.id }}
+                                {{ base_path }}
                             </td>
                             <td>
-                                {{ serie.name }}
-                            </td>
-                            <td>
-                                {{ serie.description }}
-                            </td>
-                            <td>
-                                <img :title="serie.title" :src="serie.picture"/>
+                                <img :src="getPicture(serie.picture)"/>
+                                <!--<img src="../assets/uploads/series/2017-08-12-12-38-37-dna.png"/>-->
+                                <!--<img src="../assets/uploads/series/2017-08-12-12-38-13-ecg-blue-thin.jpg"/>-->
                             </td>
                         </tr>
                     </table>
@@ -79,13 +93,18 @@
 <script>
     import Vuex from 'vuex'
     import restclient from '../restclient'
+    import authent from './Authent.vue'
 
     export default {
         name: 'example',
-        components: {},
+        components: {
+            authent
+        },
         data () {
             return {
-                msg: 'Welcome to Your Vue.js App'
+                msg: 'Welcome to Your Vue.js App',
+//                picture_base_path: '/srv/node/restful/uploads'
+                base_path: '../assets/uploads/series/2017-08-12-12-38-37-dna.png'
             }
         },
         props: {},
@@ -108,6 +127,7 @@
                 addSerieStore: 'addSerie'
             }),
             addPhoto (photo) {
+                var tof = _.clone(photo)
                 this.addPhotoStore(photo)
             },
             addVideo (video) {
@@ -131,6 +151,10 @@
                 }catch (err){
                         console.error('error while adding photo')
                 }
+            },
+            getPicture(pic){
+                console.log('./assets/uploads' + pic)
+                return './assets/uploads' + pic
             }
         },
         created: function () {
@@ -144,6 +168,7 @@
 <style scoped>
     h1, h2 {
         font-weight: normal;
+        color: #17ff00
     }
 
     ul {
