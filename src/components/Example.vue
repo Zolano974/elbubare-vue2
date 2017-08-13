@@ -31,12 +31,10 @@
                         <!--</tr>-->
                         <tr v-for="serie in series">
                             <td>
-                                {{ base_path }}
+                                {{ getPicture(serie.picture) }}
                             </td>
                             <td>
-                                <img :src="getPicture(serie.picture)"/>
-                                <!--<img src="../assets/uploads/series/2017-08-12-12-38-37-dna.png"/>-->
-                                <!--<img src="../assets/uploads/series/2017-08-12-12-38-13-ecg-blue-thin.jpg"/>-->
+                                <photo :file="serie.picture" ></photo>
                             </td>
                         </tr>
                     </table>
@@ -58,7 +56,7 @@
                                 {{ photo.description }}
                             </td>
                             <td>
-                                <img :title="photo.title" :src="photo.file"/>
+                                <photo :file="photo.file" ></photo>
                             </td>
                         </tr>
                     </table>
@@ -80,7 +78,7 @@
                                 {{ video.description }}
                             </td>
                             <td>
-                                {{ video.file }}
+                                <photo :file="video.file" ></photo>
                             </td>
                         </tr>
                     </table>
@@ -94,11 +92,13 @@
     import Vuex from 'vuex'
     import restclient from '../restclient'
     import authent from './Authent.vue'
+    import photo from './Photo.vue'
 
     export default {
         name: 'example',
         components: {
-            authent
+            authent,
+            photo,
         },
         data () {
             return {
@@ -118,6 +118,9 @@
             })
         },
         methods: {
+            getPicture(pic){
+                return '../assets/uploads' + pic
+            },
             ...Vuex.mapActions({
                 // mapping with the names in the store actions (right side)
                 loadDataStore: 'loadData',
@@ -152,10 +155,6 @@
                         console.error('error while adding photo')
                 }
             },
-            getPicture(pic){
-                console.log('./assets/uploads' + pic)
-                return './assets/uploads' + pic
-            }
         },
         created: function () {
             console.log('mounted zob')
