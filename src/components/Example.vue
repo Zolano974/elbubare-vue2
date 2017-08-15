@@ -14,24 +14,12 @@
                 <div class="table table-stripped">
                     <!--On itère sur le GETTER du store Vuex -->
                     <table>
-                        <!--<tr v-for="serie in series">-->
-                            <!--<td>-->
-                                <!--{{ serie.id }}-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--{{ serie.name }}-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--{{ serie.description }}-->
-                            <!--</td>-->
-                            <!--<td>-->
-
-                                <!--<img :title="serie.title" :src="picture_base_path + serie.picture"/>-->
-                            <!--</td>-->
-                        <!--</tr>-->
                         <tr v-for="serie in series">
                             <td>
-                                {{ getPicture(serie.picture) }}
+                                {{ serie.name }}
+                            </td>
+                            <td>
+                                {{ serie.description }}
                             </td>
                             <td>
                                 <photo :file="serie.picture" ></photo>
@@ -41,44 +29,22 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <h2>Photos</h2>
+                <h2>medias</h2>
                 <div class="table table-stripped">
                     <!--On itère sur le GETTER du store Vuex -->
                     <table>
-                        <tr v-for="photo in photos">
+                        <tr v-for="media in medias">
                             <td>
-                                {{ photo.id }}
+                                {{ media.id }}
                             </td>
                             <td>
-                                {{ photo.title }}
+                                {{ media.title }}
                             </td>
                             <td>
-                                {{ photo.description }}
+                                {{ media.description }}
                             </td>
                             <td>
-                                <photo :file="photo.file" ></photo>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <h2>Videos</h2>
-                <div class="table table-stripped">
-                    <!--On itère sur le GETTER du store Vuex -->
-                    <table>
-                        <tr v-for="video in videos">
-                            <td>
-                                {{ video.id }}
-                            </td>
-                            <td>
-                                {{ video.title }}
-                            </td>
-                            <td>
-                                {{ video.description }}
-                            </td>
-                            <td>
-                                <photo :file="video.file" ></photo>
+                                <photo :file="media.file" ></photo>
                             </td>
                         </tr>
                     </table>
@@ -103,8 +69,6 @@
         data () {
             return {
                 msg: 'Welcome to Your Vue.js App',
-//                picture_base_path: '/srv/node/restful/uploads'
-                base_path: '../assets/uploads/series/2017-08-12-12-38-37-dna.png'
             }
         },
         props: {},
@@ -112,8 +76,7 @@
             // plus besoin de data() : on accède aux données via les GETTERS du store
             ...Vuex.mapGetters({
                 // mapping with the names in the store data (right side)
-                photos: 'photos',
-                videos: 'videos',
+                medias: 'medias',
                 series: 'series'
             })
         },
@@ -125,16 +88,13 @@
                 // mapping with the names in the store actions (right side)
                 loadDataStore: 'loadData',
                 clearDataStore: 'clearData',
-                addPhotoStore: 'addPhoto',
+                addMediaStore: 'addMedia',
                 addVideoStore: 'addVideo',
                 addSerieStore: 'addSerie'
             }),
-            addPhoto (photo) {
-                var tof = _.clone(photo)
-                this.addPhotoStore(photo)
-            },
-            addVideo (video) {
-                this.addVideoStore(video)
+            addMedia (media) {
+                var md = _.clone(media)
+                this.addMediaStore(md)
             },
             addSerie (serie) {
                 this.addSerieStore(serie)
