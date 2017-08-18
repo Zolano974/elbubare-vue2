@@ -1,25 +1,39 @@
 <template>
-    <div class="photo container" :style="'width:'+containerWidth+'px;height:'+containerHeight+'px'">
-        <img    :title="title"
-                :src="getPicture()"
-                :style="'width:'+width+'px;height:'+height+'px'"
-        />
+    <div class="row">
+
+        <!-- TITRE + DESCRIPTION -->
+        <div class="col-md-5">
+            <div class="row">
+                <b class="text-center">{{ media.title }}</b>
+            </div>
+            <div class="row">
+                <p>
+                    {{ media.description }}
+                </p>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <photo v-if="isVideo" :file="media.file" :width="width" :height="height"></photo>
+            <movie v-else :file="media.file" :width="width" :height="height"></movie>
+        </div>
     </div>
 </template>
 
 <script>
     import Vuex from 'vuex'
     import restclient from '../restclient'
+    import photo from './Photo.vue'
+    import movie from './Movie.vue'
 
     export default {
-        name: 'photo',
-        components: {},
+        name: 'media',
+        components: {
+            photo,
+            movie
+        },
         props: {
-            file: {
+            media: {
                 required: true
-            },
-            title: {
-                default: 'notitle'
             },
             width: {
                 default: 210,
@@ -32,18 +46,12 @@
         },
         data: function () {
             return{
-//                file: this.file,
-//                title: this.title,
-//                width: this.width,
-//                height: this.height,
+
             }
         },
         computed: {
-            containerWidth: function(){
-                return this.width * 1.6
-            },
-            containerHeight: function(){
-                return this.height * 1.3
+            isVideo: function(){
+                return this.media.mediatype === 'video'
             },
         },
         methods: {
@@ -53,7 +61,7 @@
             },
         },
         created: function () {
-            console.log('picture created')
+            console.log('media component created')
         }
     }
 </script>

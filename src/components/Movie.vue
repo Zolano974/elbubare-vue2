@@ -1,9 +1,17 @@
 <template>
+
+    <!--TODO : gérer l'utilisation de video.js et les chemins des fichiers -->
+
     <div class="photo container" :style="'width:'+containerWidth+'px;height:'+containerHeight+'px'">
-        <img    :title="title"
-                :src="getPicture()"
-                :style="'width:'+width+'px;height:'+height+'px'"
-        />
+        <video id="my-video" class="video-js" controls preload="auto" width="640" height="264"
+               poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
+            <source :src="file" type='video/mp4'>
+            <source :src="file" type='video/webm'>
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser that
+                <a href="http://videojs.com/html5-video-support/Movie.vue" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
     </div>
 </template>
 
@@ -11,15 +19,15 @@
     import Vuex from 'vuex'
     import restclient from '../restclient'
 
+    require('../../node_modules/video.js/dist/video.js')
+    require('../../node_modules/video.js/dist/video-js.min.css')
+
     export default {
-        name: 'photo',
+        name: 'movie',
         components: {},
         props: {
             file: {
                 required: true
-            },
-            title: {
-                default: 'notitle'
             },
             width: {
                 default: 210,
@@ -32,10 +40,7 @@
         },
         data: function () {
             return{
-//                file: this.file,
-//                title: this.title,
-//                width: this.width,
-//                height: this.height,
+
             }
         },
         computed: {
