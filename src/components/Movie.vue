@@ -3,28 +3,58 @@
     <!--TODO : gérer l'utilisation de video.js et les chemins des fichiers -->
 
     <div class="photo container" :style="'width:'+containerWidth+'px;height:'+containerHeight+'px'">
-        <video id="my-video" class="video-js" controls preload="auto" width="640" height="264"
-               poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
-            <source :src="file" type='video/mp4'>
-            <source :src="file" type='video/webm'>
-            <p class="vjs-no-js">
-                To view this video please enable JavaScript, and consider upgrading to a web browser that
-                <a href="http://videojs.com/html5-video-support/Movie.vue" target="_blank">supports HTML5 video</a>
-            </p>
-        </video>
+
+        <!--<video id="my-video" class="video-js" controls preload="auto" width="640" height="264"-->
+               <!--poster="MY_VIDEO_POSTER.jpg" data-setup="{}">-->
+            <!--<source :src="file" type='video/mp4'>-->
+            <!--&lt;!&ndash;<source :src="file" type='video/webm'>&ndash;&gt;-->
+            <!--<p class="vjs-no-js">-->
+                <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                <!--<a href="http://videojs.com/html5-video-support/Movie.vue" target="_blank">supports HTML5 video</a>-->
+            <!--</p>-->
+        <!--</video>-->
+
+        <video-player  class="video-player-box"
+                       ref="videoPlayer"
+                       poster="logo.png"
+                       :options="playerOptions"
+                       :playsinline="true"
+                       customEventName="customstatechangedeventname"
+
+                       @play="onPlayerPlay($event)"
+                       @pause="onPlayerPause($event)"
+                       @ended="onPlayerEnded($event)"
+                       @waiting="onPlayerWaiting($event)"
+                       @playing="onPlayerPlaying($event)"
+                       @loadeddata="onPlayerLoadeddata($event)"
+                       @timeupdate="onPlayerTimeupdate($event)"
+                       @canplay="onPlayerCanplay($event)"
+                       @canplaythrough="onPlayerCanplaythrough($event)"
+
+                       @statechanged="playerStateChanged($event)"
+                       @ready="playerReadied">
+        </video-player>
     </div>
 </template>
 
 <script>
-    import Vuex from 'vuex'
+    import Vue from 'vue'
+//    import Vuex from 'vuex'
     import restclient from '../restclient'
 
-    require('../../node_modules/video.js/dist/video.js')
-    require('../../node_modules/video.js/dist/video-js.min.css')
+    require('video.js/dist/video-js.css')
+//  IMPORT GLOBAL
+//    import VueVideoPlayer from 'vue-video-player'
+//    Vue.use(VueVideoPlayer)
+
+    // IMPORT COMPONENT
+    import { videoPlayer } from 'vue-video-player'
 
     export default {
         name: 'movie',
-        components: {},
+        components: {
+            videoPlayer
+        },
         props: {
             file: {
                 required: true
@@ -39,11 +69,28 @@
             },
         },
         data: function () {
-            return{
-
+            return {
+                playerOptions: {
+                    // videojs options
+                    muted: true,
+                    language: 'en',
+                    playbackRates: [0.7, 1.0, 1.5, 2.0],
+                    sources: [{
+                        type: "video/mp4",
+                        src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+//                        src: this.filepath
+                    }],
+                    poster: "/static/images/author.jpg",
+                }
             }
         },
         computed: {
+            player() {
+                return this.$refs.videoPlayer.player
+            },
+            filepath() {
+                return '/static/uploads' + this.file
+            },
             containerWidth: function(){
                 return this.width * 1.6
             },
@@ -52,13 +99,37 @@
             },
         },
         methods: {
-            getPicture(){
+            getFile(){
                 console.log('/static/uploads' + this.file)
                 return '/static/uploads' + this.file
             },
+            // listen event
+            onPlayerPlay(player) {
+                // console.log('player play!', player)
+            },
+            onPlayerPause(player) {
+                // console.log('player pause!', player)
+            },
+            // ...player event
+            // or listen state event
+            playerStateChanged(playerCurrentState) {
+                // console.log('player current update state', playerCurrentState)
+            },
+            // player is ready
+            playerReadied(player) {
+                console.log('the player is readied', player)
+                // you can use it to do something...
+                // player.[methods]
+            }
         },
         created: function () {
-            console.log('picture created')
+//            videojs('my-video')
+//            console.log('movie created')
+        },
+        mounted: () => {
+//            videojs.videojs('my-video')
+//            console.log('movie created')
+//            alert(this.filepath)
         }
     }
 </script>

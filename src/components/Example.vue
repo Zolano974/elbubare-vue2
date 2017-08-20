@@ -22,7 +22,7 @@
                                 {{ serie.description }}
                             </td>
                             <td>
-                                <photo :file="serie.picture" ></photo>
+                                <photo :file="serie.picture" :title="serie.name" ></photo>
                             </td>
                         </tr>
                     </table>
@@ -44,7 +44,9 @@
                                 {{ media.description }}
                             </td>
                             <td>
-                                <photo :file="media.file" ></photo>
+                                &nbsp;&nbsp; {{ media.file }}
+                                <!--<photo :file="media.file" ></photo>-->
+                                <movie :file="media.file" ></movie>
                             </td>
                         </tr>
                     </table>
@@ -59,12 +61,14 @@
     import restclient from '../restclient'
     import authent from './Authent.vue'
     import photo from './Photo.vue'
+    import movie from './Movie.vue'
 
     export default {
         name: 'example',
         components: {
             authent,
             photo,
+            movie,
         },
         data () {
             return {
