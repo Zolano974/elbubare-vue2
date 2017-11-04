@@ -2,9 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import restclient from '../restclient'
 
-import _ from 'underscore'
-
- Vue.use(Vuex)
+Vue.use(Vuex)
 
 const state = {
     series: [],
@@ -28,8 +26,6 @@ Array.prototype.clearById = (id) => {
         return elt.id !== id
     })
 }
-
-
 
 const mutations = {
     CLEAR_STORE: (state) => {
@@ -82,7 +78,6 @@ const actions = {
     },
     addMedia: async (store, media) => {
         console.log('add media action')
-
         try{
             var response= await restclient.post('media/' + media.id, {media})
             store.commit('ADD_MEDIA', response.body)
@@ -91,7 +86,6 @@ const actions = {
         }
     },
     addSerie: async (store, serie) => {
-
         try{
             //  Appel API REST
             var response = await restclient.post('serie/' + serie.id, {serie})
@@ -99,7 +93,6 @@ const actions = {
         }catch(err){
             console.error('error while adding serie')
         }
-
     }
 }
 

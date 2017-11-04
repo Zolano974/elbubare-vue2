@@ -2,7 +2,9 @@
 
     <!--TODO : gérer l'utilisation de video.js et les chemins des fichiers -->
 
-    <div class="photo container" :style="'width:'+containerWidth+'px;height:'+containerHeight+'px'">
+    <div class="photo container">
+         <!--:style="'width:'+containerWidth+'px;height:'+containerHeight+'px'"-->
+
 
         <!--<video id="my-video" class="video-js" controls preload="auto" width="640" height="264"-->
                <!--poster="MY_VIDEO_POSTER.jpg" data-setup="{}">-->
