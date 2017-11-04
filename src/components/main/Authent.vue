@@ -1,24 +1,24 @@
 <template>
-    <section class="section">
+    <div class="box">
 
         <div class="container">
             <div class="columns">
                 <div class="column">
-                    <div class="field is-grouped is-horizontal">
+                    <div class="field">
                         <div class="control">
-                                <label for="username" class="label">Username</label>
-                                <input v-model="loggingUser.username"
-                                       id="username"
-                                       name="username"
-                                       class="input"
-                                       type="text"/>
+                            <label for="username" class="label">Username</label>
+                            <input v-model="loggingUser.username"
+                                   id="username"
+                                   name="username"
+                                   class="input"
+                                   type="text"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="columns">
                 <div class="column">
-                    <div class="field is-horizontal">
+                    <div class="field">
                         <div class="control">
                             <label for="password" class="label">Password</label>
                             <input v-model="loggingUser.password"
@@ -41,12 +41,12 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </template>
 
 <script>
     import Vuex from 'vuex'
-    import restclient from '../restclient'
+    import restclient from '../../restclient'
 
     export default {
         name: 'authent',

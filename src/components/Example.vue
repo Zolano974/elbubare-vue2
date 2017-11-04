@@ -59,7 +59,7 @@
 <script>
     import Vuex from 'vuex'
     import restclient from '../restclient'
-    import authent from './Authent.vue'
+    import authent from './main/Authent.vue'
     import photo from './Photo.vue'
     import movie from './Movie.vue'
 

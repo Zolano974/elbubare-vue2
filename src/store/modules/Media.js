@@ -16,6 +16,9 @@ const mutations = {
     REMOVE_MEDIA: (state, media) => {
         state.medias.clearById(media.id)
     },
+    SYNC_MEDIAS: (state, medias) => {
+        state.medias = medias
+    },
 }
 
 const actions = {
@@ -29,6 +32,14 @@ const actions = {
             console.error('error while adding media')
         }
     },
+    load: async (store) => {
+        try{
+            var mediasresponse = await restclient.get('medias')
+            store.commit('SYNC_MEDIAS', mediasresponse.data.medias)
+        }catch(err){
+            console.log('trouble during media syncing : ', err)
+        }
+    }
 }
 
 export default {

@@ -21,9 +21,9 @@
 
 <script>
     import Vuex from 'vuex'
-    import restclient from '../restclient'
-    import photo from './Photo.vue'
-    import movie from './Movie.vue'
+    import restclient from '../../restclient'
+    import photo from '../Photo.vue'
+    import movie from '../Movie.vue'
 
     export default {
         name: 'media',

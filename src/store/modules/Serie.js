@@ -15,6 +15,10 @@ const mutations = {
     },
     REMOVE_SERIE: (state, serie) => {
         state.series.clearById(serie.id)
+    },
+    //SERIES
+    SYNC_SERIES: (state, series) => {
+        state.series = series
     }
 }
 
@@ -28,7 +32,15 @@ const actions = {
         } catch (err) {
             console.error('error while adding serie')
         }
-
+    },
+    load: async (store) => {
+        // sync series
+        try{
+            var seriesresponse = await restclient.get('series')
+            store.commit('SYNC_SERIES', seriesresponse.data.series)
+        }catch(err){
+            console.log('trouble during series syncing : ', err)
+        }
     }
 }
 
