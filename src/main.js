@@ -7,10 +7,7 @@ import router from './router'
 // import store from './store/AppStore'
 import store from './store/CompositeStore'
 
-console.log(store)
-
-// require('../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss')
-
+//utilisation du store
 Vue.use(Vuex)
 Vue.config.productionTip = false
 
