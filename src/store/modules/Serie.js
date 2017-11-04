@@ -5,14 +5,11 @@ const state = {
 }
 
 const getters = {
-    series: state => state.series,
+    getAll: state => state.series,
 }
 
 const mutations = {
-    //SERIES
-    SYNC_SERIES: (state, series) => {
-        state.series = series
-    },
+
     ADD_SERIE: (state, serie) => {
         state.series.push(serie)
     },

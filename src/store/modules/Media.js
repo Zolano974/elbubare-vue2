@@ -5,13 +5,11 @@ const state = {
 }
 
 const getters = {
-    medias: state => state.medias,
+    getAll: state => state.medias,
 }
 
 const mutations = {
-    SYNC_MEDIAS: (state, medias) => {
-        state.medias = medias
-    },
+
     ADD_MEDIA: (state, media) => {
         state.medias.push(media)
     },

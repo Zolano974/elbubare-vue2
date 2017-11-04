@@ -4,9 +4,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
 import router from './router'
-import store from './store/AppStore'
+// import store from './store/AppStore'
+import store from './store/CompositeStore'
 
-require('../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss')
+console.log(store)
+
+// require('../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss')
 
 Vue.use(Vuex)
 Vue.config.productionTip = false

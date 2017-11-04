@@ -44,7 +44,7 @@
                 type: Number
             },
         },
-        data: function () {
+        data() {
             return{
 
             }
