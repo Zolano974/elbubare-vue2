@@ -1,6 +1,5 @@
 <template>
-    <div class="box">
-
+    <div class="box" :style="getClass">
 
         <div class="columns">
             <div class="column is-half">
@@ -49,7 +48,7 @@
             <div class="column">
                 <template v-if="!editMode">
                     <img    title="welcome"
-                            :src="getPicture()"
+                            :src="getPicture"
                             style="max-width:300px;max-height:100px;"
                     />
 
@@ -60,16 +59,6 @@
                             type="file"
                             value="upload"
                     />
-                    <!--<file-upload-->
-                            <!--ref="upload"-->
-                            <!--v-model="files"-->
-                            <!--post-action="/post.method"-->
-                            <!--put-action="/put.method"-->
-                            <!--@input-file="inputFile"-->
-                            <!--@input-filter="inputFilter"-->
-                    <!--&gt;-->
-                        <!--Upload file-->
-                    <!--</file-upload>-->
                 </template>
             </div>
         </div>
@@ -87,10 +76,6 @@
                         Save
                     </div>
                 </template>
-
-                <div class="button is-big is-warning is-outlined" @click="loadData">
-                    Load Data
-                </div>
             </div>
         </div>
     </div>
@@ -117,11 +102,22 @@
             }
         },
         computed: {
+            getClass () {
+                return {
+                    'background-image': 'url(' + this.getPicture +')',
+                    'background-size': '100% 100%',
+                    'color' : 'white !important',
+                    'opacity': '0.80'
+                }
+            },
             getTitle () {
                 return (this.intro.title !== null) ? this.intro.title : this.introStore.title
             },
             getBody () {
                 return (this.intro.body !== null) ? this.intro.body : this.introStore.body
+            },
+            getPicture () {
+                return (this.file !== null) ?  this.file : '/static/uploads' + this.introStore.picture
             },
             ...Vuex.mapGetters({
                 // mapping with the names in the store data (right side)
@@ -158,9 +154,7 @@
             toggleEditMode(){
                 this.editMode = !this.editMode
             },
-            getPicture () {
-                return '/static/uploads' + this.introStore.picture
-            },
+
             ...Vuex.mapActions({
                 // mapping with the names in the store actions (right side)
                 loadMediaStore: 'media/load',

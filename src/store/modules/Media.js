@@ -6,6 +6,15 @@ const state = {
 
 const getters = {
     getAll: state => state.medias,
+    getAllPhotos: state => state.medias.filter((elt) => {
+        return elt.mediatype === "photo"
+    }),
+    getAllVideos: state => state.medias.filter((elt) => {
+        return elt.mediatype === "video"
+    }),
+    getAllBySerieId: (state, serieId) => state.medias.filter((elt) => {
+        return elt.serie_id === serieId
+    })
 }
 
 const mutations = {

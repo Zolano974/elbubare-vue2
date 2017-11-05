@@ -1,73 +1,39 @@
 <template>
-    <section class="section">
+    <div>
+        <section class="section">
 
-        <div class="container">
             <div class="title">
                 Main Yolo
-                <!--<button class="btn btn-success" @click="login()">login</button>-->
-                <!--<button class="btn btn-danger" @click="clearData()"><span class="glyphicon glyphicon-trash"></span></button>-->
             </div>
             <div class="subtitle">
                 Example with composite vuex and bulma
             </div>
             <div class="columns">
+                <!-- Authent -->
                 <div class="column is-narrow">
                     <authent></authent>
                 </div>
+                <!-- Présentation -->
                 <div class="column">
                     <introduction></introduction>
                 </div>
 
             </div>
-            <!---->
-            <!---->
-            <!--<div class="row">-->
-                <!--<div class="col-md-4">-->
-                    <!--<h2>Series</h2>-->
-                    <!--<div class="table table-stripped">-->
-                        <!--&lt;!&ndash;On itère sur le GETTER du store Vuex &ndash;&gt;-->
-                        <!--<table>-->
-                            <!--<tr v-for="serie in series">-->
-                                <!--<td>-->
-                                    <!--{{ serie.name }}-->
-                                <!--</td>-->
-                                <!--<td>-->
-                                    <!--{{ serie.description }}-->
-                                <!--</td>-->
-                                <!--<td>-->
-                                    <!--<photo :file="serie.picture" :title="serie.name" ></photo>-->
-                                <!--</td>-->
-                            <!--</tr>-->
-                        <!--</table>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-md-4">-->
-                    <!--<h2>medias</h2>-->
-                    <!--<div class="table table-stripped">-->
-                        <!--&lt;!&ndash;On itère sur le GETTER du store Vuex &ndash;&gt;-->
-                        <!--<table>-->
-                            <!--<tr v-for="media in medias">-->
-                                <!--<td>-->
-                                    <!--{{ media.id }}-->
-                                <!--</td>-->
-                                <!--<td>-->
-                                    <!--{{ media.title }}-->
-                                <!--</td>-->
-                                <!--<td>-->
-                                    <!--{{ media.description }}-->
-                                <!--</td>-->
-                                <!--<td>-->
-                                    <!--&nbsp;&nbsp; {{ media.file }}-->
-                                    <!--&lt;!&ndash;<photo :file="media.file" ></photo>&ndash;&gt;-->
-                                    <!--<movie :file="media.file" ></movie>-->
-                                <!--</td>-->
-                            <!--</tr>-->
-                        <!--</table>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        </div>
-    </section>
+
+        </section>
+
+        <hr/>
+
+        <section class="section">
+
+            <!-- Welcome Tiles -->
+            <welcome-tiles></welcome-tiles>
+
+            <!-- Series -->
+
+        </section>
+
+    </div>
 </template>
 
 <script>
@@ -77,6 +43,7 @@
     import photo from '../Photo.vue'
     import movie from '../Movie.vue'
     import introduction from './Introduction.vue'
+    import welcomeTiles from './WelcomeTiles.vue'
 
     export default {
         name: 'main',
@@ -85,6 +52,7 @@
             photo,
             movie,
             introduction,
+            welcomeTiles,
         },
         data () {
             return {
@@ -159,3 +127,50 @@
         color: #42b983;
     }
 </style>
+<!---->
+<!---->
+<!--<div class="row">-->
+<!--<div class="col-md-4">-->
+<!--<h2>Series</h2>-->
+<!--<div class="table table-stripped">-->
+<!--&lt;!&ndash;On itère sur le GETTER du store Vuex &ndash;&gt;-->
+<!--<table>-->
+<!--<tr v-for="serie in series">-->
+<!--<td>-->
+<!--{{ serie.name }}-->
+<!--</td>-->
+<!--<td>-->
+<!--{{ serie.description }}-->
+<!--</td>-->
+<!--<td>-->
+<!--<photo :file="serie.picture" :title="serie.name" ></photo>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-md-4">-->
+<!--<h2>medias</h2>-->
+<!--<div class="table table-stripped">-->
+<!--&lt;!&ndash;On itère sur le GETTER du store Vuex &ndash;&gt;-->
+<!--<table>-->
+<!--<tr v-for="media in medias">-->
+<!--<td>-->
+<!--{{ media.id }}-->
+<!--</td>-->
+<!--<td>-->
+<!--{{ media.title }}-->
+<!--</td>-->
+<!--<td>-->
+<!--{{ media.description }}-->
+<!--</td>-->
+<!--<td>-->
+<!--&nbsp;&nbsp; {{ media.file }}-->
+<!--&lt;!&ndash;<photo :file="media.file" ></photo>&ndash;&gt;-->
+<!--<movie :file="media.file" ></movie>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
