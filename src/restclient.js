@@ -5,7 +5,7 @@ import axios from 'axios'
 const restClient = axios.create({
     baseURL: 'http://localhost:4000/',
     headers: {
-        'Authorization': localStorage.getItem('token')
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
     }
     // timeout: 1000,
 })

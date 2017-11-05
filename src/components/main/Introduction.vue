@@ -15,8 +15,8 @@
                         </template>
                         <template v-else>
                             <div class="field">
+                                <label class="label" ></label>
                                 <div class="control">
-                                    <label class="label" ></label>
                                     <input
                                         :value="getTitle"
                                         @input="setTitle"
@@ -77,12 +77,12 @@
             <div class="column is-half"></div>
             <div class="column">
 
-                <template v-if="!editMode"  >
+                <template v-if="!editMode && connected"  >
                     <div class="button is-big is-info is-outlined" @click="toggleEditMode">
                         Edit
                     </div>
                 </template>
-                <template v-else >
+                <template v-else-if="connected" >
                     <div class="button is-big is-info is-outlined" @click="setIntroduction">
                         Save
                     </div>
@@ -100,12 +100,10 @@
     import Vuex from 'vuex'
     import restclient from '../../restclient'
     import _ from 'underscore'
-    import VueUploadComponent from 'vue-upload-component'
 
     export default {
         name: 'introduction',
         components: {
-            FileUpload: VueUploadComponent
         },
         data () {
             return {
@@ -128,6 +126,7 @@
             ...Vuex.mapGetters({
                 // mapping with the names in the store data (right side)
                 introStore: 'intro/get',
+                connected: 'auth/isConnected',
             })
         },
         methods: {
@@ -166,7 +165,7 @@
                 // mapping with the names in the store actions (right side)
                 loadMediaStore: 'media/load',
                 loadSerieStore: 'serie/load',
-                loadIntroStore: 'intro/load'
+                loadIntroStore: 'intro/load',
             }),
             loadData () {
                 this.loadMediaStore()
@@ -181,43 +180,6 @@
                 console.log('set body ' + e.target.value)
                 this.intro.body = e.target.value
             },
-            /**
-             * Has changed
-             * @param  Object|undefined   newFile   Read only
-             * @param  Object|undefined   oldFile   Read only
-             * @return undefined
-             */
-            inputFile: function (newFile, oldFile) {
-                if (newFile && oldFile && !newFile.active && oldFile.active) {
-                    // Get response data
-                    console.log('response', newFile.response)
-                    if (newFile.xhr) {
-                        //  Get the response status code
-                        console.log('status', newFile.xhr.status)
-                    }
-                }
-            },
-            /**
-             * Pretreatment
-             * @param  Object|undefined   newFile   Read and write
-             * @param  Object|undefined   oldFile   Read only
-             * @param  Function           prevent   Prevent changing
-             * @return undefined
-             */
-            inputFilter: function (newFile, oldFile, prevent) {
-                if (newFile && !oldFile) {
-                    // Filter non-image file
-                    if (!/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(newFile.name)) {
-                        return prevent()
-                    }
-                }
-                // Create a blob field
-                newFile.blob = ''
-                let URL = window.URL || window.webkitURL
-                if (URL && URL.createObjectURL) {
-                    newFile.blob = URL.createObjectURL(newFile.file)
-                }
-            }
 
         },
         created: function () {
@@ -225,6 +187,7 @@
         },
         mounted: function () {
             console.log('introduction mounted')
+            this.loadData()
         }
     }
 </script>

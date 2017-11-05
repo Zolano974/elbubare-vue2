@@ -3,13 +3,13 @@ import Vuex from 'vuex'
 
 import Media from './modules/Media'
 import Serie from './modules/Serie'
-import Main from './modules/Main'
+import Auth from './modules/Auth'
 import Intro from './modules/Introduction'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
     modules: {
-        main: Main,
+        auth: Auth,
         media: Media,
         serie: Serie,
         intro: Intro

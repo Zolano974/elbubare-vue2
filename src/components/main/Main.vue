@@ -97,7 +97,8 @@
             ...Vuex.mapGetters({
                 // mapping with the names in the store data (right side)
                 medias: 'media/getAll',
-                series: 'serie/getAll'
+                series: 'serie/getAll',
+                connected: 'auth/isConnected',
             })
         },
         methods: {
@@ -111,8 +112,7 @@
                 addVideoStore: 'media/addVideo',
                 addSerieStore: 'serie/addSerie',
                 loadSerieStore: 'serie/load',
-
-                loadIntroStore: 'intro/load'
+                loadIntroStore: 'intro/load',
             }),
             addMedia (media) {
                 var md = _.clone(media)
@@ -129,16 +129,7 @@
             clearData(){
                 this.clearDataStore()
             },
-            async login () {
 
-                try{
-                    var response = await restclient.post('/auth', {username: 'Sophie', password: 'culculcul'})
-                    var token = response.data.token
-                    localStorage.setItem('token', 'Bearer ' + token)
-                }catch (err){
-                        console.error('error while adding photo')
-                }
-            },
         },
         created: function () {
             console.log('mounted zob')
