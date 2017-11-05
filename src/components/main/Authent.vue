@@ -1,5 +1,7 @@
 <template>
     <div class="box">
+        <template v-if="!connected">
+
             <div class="columns">
                 <div class="column">
                     <div class="field">
@@ -30,21 +32,22 @@
                     </div>
                 </div>
             </div>
-            <div class="columns">
-                <div class="column"></div>
-                <div class="column">
-                    <div class="field is-grouped is-grouped-right">
-                        <template v-if="!connected">
-                            <button class="button is-primary is-outlined is-right" @click="login()">Log In</button>
-                            <button class="button is-primary is-right" @click="signup()">Signup</button>
-                        </template>
-                        <template v-else>
-                            <button class="button is-danger is-right" @click="logout()">LogOut</button>
-                        </template>
+        </template>
+        <div class="columns">
+            <div class="column"></div>
+            <div class="column">
+                <div class="field is-grouped is-grouped-right">
+                    <template v-if="!connected">
+                        <button class="button is-primary is-outlined is-right" @click="login()">Log In</button>
+                        <button class="button is-primary is-right" @click="signup()">Signup</button>
+                    </template>
+                    <template v-else>
+                        <button class="button is-danger is-right" @click="logout()">LogOut</button>
+                    </template>
 
-                    </div>
                 </div>
             </div>
+        </div>
     </div>
 </template>
 

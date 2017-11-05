@@ -11,7 +11,7 @@
                 Example with composite vuex and bulma
             </div>
             <div class="columns">
-                <div class="column is-one-third">
+                <div class="column is-narrow">
                     <authent></authent>
                 </div>
                 <div class="column">

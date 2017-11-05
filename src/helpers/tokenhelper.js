@@ -9,6 +9,12 @@ export default {
             // console.log('localstorage.token => ' + localStorage.getItem('token'))
             token = localStorage.getItem('token')
         }
+        if(token !== null){
+            localStorage.setItem('token', token)
+        }
+        else{
+            localStorage.setItem('token', '')
+        }
         return token
     }
 }
